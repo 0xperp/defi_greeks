@@ -2,7 +2,7 @@
 
 Huge thanks to [wateryan/greeks](https://github.com/wateryan/greeks) for the initial greeks repo
 
-Break downn power perpetuals and concentrated liquididty positions in their respective greeks
+Break down power perpetuals and concentrated liquidity positions in their respective greeks
 
 ## Supported Calculations
 ### Squeeks
