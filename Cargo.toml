@@ -1,0 +1,22 @@
+[package]
+name = "greeks"
+version = "0.5.0"
+authors = ["Ryan <wateryan280@gmail.com>"]
+
+description = "Implementation of library to calculate options greeks"
+repository = "https://github.com/wateryan/greeks"
+license = "MIT"
+readme = "README.md"
+
+[lib]
+name = "greeks"
+path = "src/lib.rs"
+
+[[example]]
+name = "delta" # examples/delta.rs
+
+[[example]]
+name = "squeeth" # examples/squeeth.rs
+
+[features]
+unstable = []
