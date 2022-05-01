@@ -29,3 +29,8 @@ Break downn power perpetuals and concentrated liquididty positions in their resp
 * Gamma 
 * Theta
 * Vega
+
+### Concentrated Liquidity Shares 
+see this [gist](https://gist.github.com/0xperp/fe5327d05b59c9122332d860adf2ba42) for formulas, and resources 
+* Delta 
+* Gamma
