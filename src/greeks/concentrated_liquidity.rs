@@ -1,0 +1,109 @@
+// Module containing functions for calculating greeks based on concentrated liquidity
+// derived from a series of blog posts:
+// https://lambert-guillaume.medium.com/understanding-the-value-of-uniswap-v3-liquidity-positions-cdaaee127fe7
+// https://medium.com/opyn/hedging-uniswap-v3-with-squeeth-bcaf1750ea11
+// https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3898384 
+//    See Appendix A for details on the formula
+// and code from https://github.com/guil-lambert/yewbow-info/blob/32601e63cceb16d88c846a8578a2c04d83e53ba8/src/components/DensityChart/CustomToolTip.tsx#L45
+// Refer to https://gist.github.com/0xperp/fe5327d05b59c9122332d860adf2ba42 for a python notebook on the formulas
+
+// Cavets with greeks and concentrated liquididty ranges 
+// Positions have no gamma outside of the range
+
+pub fn virtual_liquidity(p_a: f32, p_b: f32, R_a: f32, R_b: f32) -> f32 {
+  // solving "bounded liquidity position" eq. 1 for L 
+  // terms for quadratic eq.
+  let a = (p_a.sqrt()/p_b.sqrt()) - 1_f32;
+  let b = (R_b / p_b.sqrt()) + (R_a * p_a.sqrt());
+  let c = R_a * R_b;
+
+  // discriminant
+  let d = b.powf(2.0) - (4_f32 * a * c);
+
+// solutions
+  let solution1 = (-b - d.sqrt()) / (2.0 * a);
+  let solution2 = (-b + d.sqrt()) / (2.0 * a);
+
+  // virtual reserves
+  let R_v = {
+      if solution1 > 0.0 { solution1 }
+      else { solution2 }
+  };
+  R_v
+}
+
+pub fn concentrated_delta(L: f32, p: f32, p_b: f32) -> f32 {
+    L * (1.0/p.sqrt() - 1.0/p_b.sqrt())
+}
+
+pub fn concentrated_gamma(L: f32, p: f32) -> f32 {
+    0.5 * L * p.powf(-1.5)
+}
+
+#[cfg(test)]
+mod tests { 
+    use greeks::*;
+
+    // a token reserves
+    const R_a: f32 = 6779.0;
+    // b token reserves
+    const R_b: f32 = 1.448;
+    // lower range 
+    const p_a: f32 = 3747.0;
+    // upper range
+    const p_b: f32 = 5024.0;
+    // current price
+    const p: f32 = 4360.61;
+
+    // expected virtual liquididty
+    const E_Rv: f32 = 1402.4046379549889;
+    // expected delta 
+    const E_delta: f32 = 1.4517521820181736;
+    // expected gamma
+    const E_gamma: f32 = 0.002435131811150409;
+
+    #[test]
+    fn test_virtual_liquidity() {
+        let virtual_liquidity = virtual_liquidity(
+            p_a, 
+            p_b,
+            R_b, 
+            R_a, // note: its tough to figure out which token is what you are pricing your greeks in, sometimes you might need to switch them around
+         );
+
+        let abs = (virtual_liquidity - E_Rv).abs();
+        assert!(abs < 0.1);
+    }
+
+    #[test]
+    fn test_delta() {
+        let virtual_liquidity = virtual_liquidity(
+            p_a, 
+            p_b,
+            R_b, 
+            R_a, // note: its tough to figure out which token is what you are pricing your greeks in, sometimes you might need to switch them around
+        );
+
+        let delta = concentrated_delta(
+            virtual_liquidity, p, p_b
+        );
+
+        let abs = (delta - E_delta).abs();
+        assert!(abs < 0.1);
+    }
+
+    #[test]
+    fn test_gamma() {
+        let virtual_liquidity = virtual_liquidity(
+            p_a, 
+            p_b,
+            R_b, 
+            R_a, // note: its tough to figure out which token is what you are pricing your greeks in, sometimes you might need to switch them around
+        );
+
+        let gamma = concentrated_gamma(virtual_liquidity, p);
+
+        let abs = (gamma - E_gamma).abs();
+        assert!(abs < 0.1);
+    }
+} 

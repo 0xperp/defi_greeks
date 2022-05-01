@@ -1,7 +1,6 @@
 [package]
 name = "greeks"
-version = "0.5.0"
-authors = ["Ryan <wateryan280@gmail.com>"]
+version = "0.0.1"
 
 description = "Implementation of library to calculate options greeks"
 repository = "https://github.com/wateryan/greeks"
@@ -17,6 +16,9 @@ name = "delta" # examples/delta.rs
 
 [[example]]
 name = "squeeth" # examples/squeeth.rs
+
+[[example]]
+name = "concentrated_liquidity" # examples/concentrated_liquidity.rs
 
 [features]
 unstable = []
