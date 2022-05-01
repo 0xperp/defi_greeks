@@ -13,6 +13,8 @@ const eulers_number: f64 = 2.718281828459;
 /// * `Normalization Factor` - Normalization factor for the underlying asset
 /// * `IV` - Implied volatility
 ///     (see https://dune.com/queries/545015/1097699 for calculating based on norm factor differences)
+/// # Return
+/// * sqth price
 pub fn sqth_to_usd(eth_price: f64, normalization_factor: f64, iv: f64) -> f64 {
     let sqth_price = (normalization_factor * (eth_price.powf(2.0))) * eulers_number.powf(iv.powf(2.0) * funding_period) / scaling_factor;
     sqth_price
@@ -25,6 +27,8 @@ pub fn sqth_to_usd(eth_price: f64, normalization_factor: f64, iv: f64) -> f64 {
 /// * `Normalization Factor` - Normalization factor for the underlying asset
 /// * `IV` - Implied volatility
 ///     (see https://dune.com/queries/545015/1097699 for calculating based on norm factor differences)
+/// # Return
+/// * delta
 pub fn sqth_delta(eth_price: f64, normalization_factor: f64, iv: f64) -> f64 {
     let delta = 2.0 * normalization_factor * eth_price * eulers_number.powf(iv.powf(2.0) * funding_period) / scaling_factor;
     delta
@@ -36,6 +40,8 @@ pub fn sqth_delta(eth_price: f64, normalization_factor: f64, iv: f64) -> f64 {
 /// * `Normalization Factor` - Normalization factor for the underlying asset
 /// * `IV` - Implied volatility
 ///     (see https://dune.com/queries/545015/1097699 for calculating based on norm factor differences)
+/// # Return
+/// * gamma
 pub fn sqth_gamma(normalization_factor: f64, iv: f64) -> f64 {
     let gamma = 2.0 * normalization_factor * eulers_number.powf(iv.powf(2.0) * funding_period) / scaling_factor;
     gamma
@@ -48,6 +54,8 @@ pub fn sqth_gamma(normalization_factor: f64, iv: f64) -> f64 {
 /// * `Normalization Factor` - Normalization factor for the underlying asset
 /// * `IV` - Implied volatility
 ///     (see https://dune.com/queries/545015/1097699 for calculating based on norm factor differences)
+/// # Return
+/// * theta
 pub fn sqth_theta(eth_price: f64, normalization_factor: f64, iv: f64) -> f64 {
     let theta = iv.powf(2.0) * sqth_to_usd(eth_price, normalization_factor, iv);
     theta
@@ -60,6 +68,8 @@ pub fn sqth_theta(eth_price: f64, normalization_factor: f64, iv: f64) -> f64 {
 /// * `Normalization Factor` - Normalization factor for the underlying asset
 /// * `IV` - Implied volatility
 ///     (see https://dune.com/queries/545015/1097699 for calculating based on norm factor differences)
+/// # Return
+/// * vega
 pub fn sqth_vega(eth_price: f64, normalization_factor: f64, iv: f64) -> f64 {
     let vega = 2.0 * iv * funding_period * sqth_to_usd(eth_price, normalization_factor, iv);
     vega

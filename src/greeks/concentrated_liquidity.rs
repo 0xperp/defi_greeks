@@ -10,6 +10,15 @@
 // Cavets with greeks and concentrated liquididty ranges 
 // Positions have no gamma outside of the range
 
+/// Calculates virtual liquidity of a concentrated liquidity share
+/// Refer to https://gist.github.com/0xperp/fe5327d05b59c9122332d860adf2ba42 for a python notebook on the formulas
+/// # Arguments
+/// * `p_a` - Lower Tick range
+/// * `p_b` - Upper tick range
+/// * `R_a` - Reserves of token a
+/// * `R_b` - Reserves of token b
+/// # Return
+/// * virtual liquidity
 pub fn virtual_liquidity(p_a: f32, p_b: f32, R_a: f32, R_b: f32) -> f32 {
   // solving "bounded liquidity position" eq. 1 for L 
   // terms for quadratic eq.
@@ -32,10 +41,25 @@ pub fn virtual_liquidity(p_a: f32, p_b: f32, R_a: f32, R_b: f32) -> f32 {
   R_v
 }
 
+/// Calculates delta of a concentrated liquidity share
+/// Refer to https://gist.github.com/0xperp/fe5327d05b59c9122332d860adf2ba42 for a python notebook on the formulas
+/// # Arguments
+/// * `L` - Virtual Liquidity
+/// * `p_b` - Upper tick range
+/// * `p` - Current price
+/// # Return
+/// * delta
 pub fn concentrated_delta(L: f32, p: f32, p_b: f32) -> f32 {
     L * (1.0/p.sqrt() - 1.0/p_b.sqrt())
 }
 
+/// Calculates gamma of a concentrated liquidity share
+/// Refer to https://gist.github.com/0xperp/fe5327d05b59c9122332d860adf2ba42 for a python notebook on the formulas
+/// # Arguments
+/// * `L` - Virtual Liquidity
+/// * `p` - Current price
+/// # Return
+/// * gamma
 pub fn concentrated_gamma(L: f32, p: f32) -> f32 {
     0.5 * L * p.powf(-1.5)
 }

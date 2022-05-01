@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "greeks"
+name = "defi_greeks"
 version = "0.0.1"

@@ -1,9 +1,9 @@
 [package]
-name = "greeks"
+name = "defi_greeks"
 version = "0.0.1"
 
-description = "Implementation of library to calculate options greeks"
-repository = "https://github.com/wateryan/greeks"
+description = "Library to calculate greeks for an option, power perpetual, or concentrated liquidity share"
+repository = "https://github.com/0xperp/new_age_greeks"
 license = "MIT"
 readme = "README.md"
 
