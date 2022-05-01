@@ -144,8 +144,9 @@ pub fn theta_put(s0: f64, x: f64, t: f64, r: f64, q: f64, sigma: f64, days_per_y
 }
 
 fn theta_arg_1(s0: f64, t: f64, q: f64, sigma: f64, d1: f64) -> f64 {
-    return -(((s0 * sigma * E.powf(-q * t)) / (2.0 * t.sqrt())) * one_over_sqrt_pi() *
-             E.powf((-d1.powf(2.0)) / 2.0));
+    return -(((s0 * sigma * E.powf(-q * t)) / (2.0 * t.sqrt()))
+        * one_over_sqrt_pi()
+        * E.powf((-d1.powf(2.0)) / 2.0));
 }
 
 fn theta_arg_2(x: f64, t: f64, r: f64, d2: f64) -> f64 {
@@ -205,24 +206,28 @@ mod tests {
 
     #[test]
     fn test_delta_call() {
-        let call_delta = delta_call(UNDERLYING,
-                                    STRIKE,
-                                    TIME_TO_EXPIRY,
-                                    INTEREST_RATE,
-                                    DIV_YIELD,
-                                    VOL);
+        let call_delta = delta_call(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (call_delta - E_CALL_DELTA).abs();
         assert!(abs < 0.001);
     }
 
     #[test]
     fn test_delta_put() {
-        let put_delta = delta_put(UNDERLYING,
-                                  STRIKE,
-                                  TIME_TO_EXPIRY,
-                                  INTEREST_RATE,
-                                  DIV_YIELD,
-                                  VOL);
+        let put_delta = delta_put(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (put_delta - E_PUT_DELTA).abs();
         assert!(abs < 0.001);
     }
@@ -231,13 +236,15 @@ mod tests {
     fn test_lambda_put() {
         // Abitrary change in underlying at expiry
         let price = put_at_expiry(UNDERLYING - 10.0, STRIKE);
-        let lambda = lambda_put(UNDERLYING,
-                                STRIKE,
-                                TIME_TO_EXPIRY,
-                                INTEREST_RATE,
-                                DIV_YIELD,
-                                VOL,
-                                price);
+        let lambda = lambda_put(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+            price,
+        );
         println!("{}", lambda);
         let abs = (lambda - E_LAMBDA_PUT).abs();
         assert!(abs < 0.001);
@@ -247,75 +254,87 @@ mod tests {
     fn test_lambda_call() {
         // abitrary change in underlying at expiry
         let price = call_at_expiry(UNDERLYING + 10.0, STRIKE);
-        let lambda = lambda_call(UNDERLYING,
-                                 STRIKE,
-                                 TIME_TO_EXPIRY,
-                                 INTEREST_RATE,
-                                 DIV_YIELD,
-                                 VOL,
-                                 price);
+        let lambda = lambda_call(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+            price,
+        );
         let abs = (lambda - E_LAMBDA_CALL).abs();
         assert!(abs < 0.001);
     }
 
     #[test]
     fn test_rho_call() {
-        let rho_call = rho_call(UNDERLYING,
-                                STRIKE,
-                                TIME_TO_EXPIRY,
-                                INTEREST_RATE,
-                                DIV_YIELD,
-                                VOL);
+        let rho_call = rho_call(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (rho_call - E_RHO_CALL).abs();
         assert!(abs < 0.001);
     }
 
     #[test]
     fn test_rho_put() {
-        let rho_put = rho_put(UNDERLYING,
-                              STRIKE,
-                              TIME_TO_EXPIRY,
-                              INTEREST_RATE,
-                              DIV_YIELD,
-                              VOL);
+        let rho_put = rho_put(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (rho_put - E_RHO_PUT).abs();
         assert!(abs < 0.001);
     }
 
     #[test]
     fn test_theta_call() {
-        let theta_call = theta_call(UNDERLYING,
-                                    STRIKE,
-                                    TIME_TO_EXPIRY,
-                                    INTEREST_RATE,
-                                    DIV_YIELD,
-                                    VOL,
-                                    DAYS_PER_YEAR);
+        let theta_call = theta_call(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+            DAYS_PER_YEAR,
+        );
         let abs = (theta_call - E_THETA_CALL).abs();
         assert!(abs < 0.001);
     }
 
     #[test]
     fn test_theta_put() {
-        let theta_put = theta_put(UNDERLYING,
-                                  STRIKE,
-                                  TIME_TO_EXPIRY,
-                                  INTEREST_RATE,
-                                  DIV_YIELD,
-                                  VOL,
-                                  DAYS_PER_YEAR);
+        let theta_put = theta_put(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+            DAYS_PER_YEAR,
+        );
         let abs = (theta_put - E_THETA_PUT).abs();
         assert!(abs < 0.001);
     }
 
     #[test]
     fn test_vega() {
-        let vega = vega(UNDERLYING,
-                        STRIKE,
-                        TIME_TO_EXPIRY,
-                        INTEREST_RATE,
-                        DIV_YIELD,
-                        VOL);
+        let vega = vega(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (vega - E_VEGA).abs();
         assert!(abs < 0.001);
     }

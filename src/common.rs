@@ -37,24 +37,28 @@ mod tests {
 
     #[test]
     fn test_d1() {
-        let d1 = d1(UNDERLYING,
-                    STRIKE,
-                    TIME_TO_EXPIRY,
-                    INTEREST_RATE,
-                    DIV_YIELD,
-                    VOL);
+        let d1 = d1(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (d1 - E_D1).abs();
         assert!(abs < 0.001);
     }
 
     #[test]
     fn test_d2() {
-        let d2 = d2(UNDERLYING,
-                    STRIKE,
-                    TIME_TO_EXPIRY,
-                    INTEREST_RATE,
-                    DIV_YIELD,
-                    VOL);
+        let d2 = d2(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (d2 - E_D2).abs();
         assert!(abs < 0.001);
     }

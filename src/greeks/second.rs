@@ -43,12 +43,14 @@ mod tests {
 
     #[test]
     fn test_gamma() {
-        let gamma = gamma(UNDERLYING,
-                          STRIKE,
-                          TIME_TO_EXPIRY,
-                          INTEREST_RATE,
-                          DIV_YIELD,
-                          VOL);
+        let gamma = gamma(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (gamma - E_GAMMA).abs();
         assert!(abs < 0.001);
     }

@@ -55,26 +55,29 @@ mod tests {
 
     #[test]
     fn test_euro_call() {
-        let price = euro_call(UNDERLYING,
-                              STRIKE,
-                              TIME_TO_EXPIRY,
-                              INTEREST_RATE,
-                              DIV_YIELD,
-                              VOL);
+        let price = euro_call(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (price - E_EURO_CALL_PRICE).abs();
         assert!(abs < 0.001);
     }
 
     #[test]
     fn test_euro_put() {
-        let price = euro_put(UNDERLYING,
-                             STRIKE,
-                             TIME_TO_EXPIRY,
-                             INTEREST_RATE,
-                             DIV_YIELD,
-                             VOL);
+        let price = euro_put(
+            UNDERLYING,
+            STRIKE,
+            TIME_TO_EXPIRY,
+            INTEREST_RATE,
+            DIV_YIELD,
+            VOL,
+        );
         let abs = (price - E_EURO_PUT_PRICE).abs();
         assert!(abs < 0.001);
     }
-
 }

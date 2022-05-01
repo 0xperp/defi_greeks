@@ -11,14 +11,13 @@ const TIME_TO_EXPIRY: f64 = 23.0 / DAYS_PER_YEAR;
 const E_CALL_DELTA: f64 = 0.5079;
 
 fn main() {
-
     let actual_delta = greeks::delta_call(
         UNDERLYING,
         STRIKE,
         TIME_TO_EXPIRY,
         INTEREST_RATE,
         DIV_YIELD,
-        VOL
+        VOL,
     );
 
     println!("Expected delta: {:2.2}", E_CALL_DELTA);

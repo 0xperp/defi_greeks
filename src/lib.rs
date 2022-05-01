@@ -4,7 +4,7 @@ mod price;
 mod stats;
 mod value;
 
-pub use greeks::*;
 pub use common::*;
+pub use greeks::*;
 pub use price::*;
 pub use value::*;

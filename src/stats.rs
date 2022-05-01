@@ -11,8 +11,8 @@ const RSQRTPI: f64 = 0.39894228040143267793994605993438;
 // Simple implementation of cumulative normal distribution for a provided 'x'
 pub fn cnd(x: f64) -> f64 {
     let k = 1.0 / (1.0 + 0.2316419 * x.abs());
-    let mut cnd: f64 = RSQRTPI * E.powf(-0.5 * x * x) *
-                       (k * (A1 + k * (A2 + k * (A3 + k * (A4 + k * A5)))));
+    let mut cnd: f64 =
+        RSQRTPI * E.powf(-0.5 * x * x) * (k * (A1 + k * (A2 + k * (A3 + k * (A4 + k * A5)))));
     if x > 0.0 {
         cnd = 1.0 - cnd;
     }
